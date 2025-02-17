@@ -62,8 +62,8 @@ export function Layout({
   onInvoiceTypeChange,
   invoiceType
 }: LayoutProps) {
-  const { logout } = useAuth();
-  const { selectedCompany, selectCompany } = useCompany();
+  const { logout, user } = useAuth();
+  const { selectedCompany, selectCompany, loading } = useCompany();
   const [showSettings, setShowSettings] = React.useState(false);
   const [showCompanySettings, setShowCompanySettings] = React.useState(false);
   const [showCompanyInfo, setShowCompanyInfo] = React.useState(false);
@@ -321,6 +321,12 @@ export function Layout({
     onNavigate(page);
     navigate(`/${page}`);
   };
+
+  React.useEffect(() => {
+    if (!user && !loading) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-100">
