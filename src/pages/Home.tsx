@@ -17,6 +17,12 @@ export function Home() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isSelecting, setIsSelecting] = React.useState(false);
 
+  React.useEffect(() => {
+    if (!user && !loading) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
   const handleCreateCompany = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newCompanyName.trim()) {

@@ -22,6 +22,7 @@ export function LoginForm({ onToggleForm, onForgotPassword }: LoginFormProps) {
 
     try {
       await login(email, password);
+      navigate('/');
     } catch (err: any) {
       console.error('Login error:', err);
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {

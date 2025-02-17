@@ -12,13 +12,23 @@ export function AdminAuth() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLocalError('');
-
+    setError('');
+    setIsLoading(true);
+  
     try {
-      await login(username, password);
-      navigate('/admin/dashboard');
-    } catch (err) {
-      setLocalError('Invalid admin credentials');
+      await login(email, password);
+      navigate('/'); // Add this line to navigate to home after successful login
+    } catch (err: any) {
+      console.error('Login error:', err);
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+        setError('Invalid email or password');
+      } else if (err.code === 'auth/too-many-requests') {
+        setError('Too many failed attempts. Please try again later.');
+      } else {
+        setError('Failed to log in. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
